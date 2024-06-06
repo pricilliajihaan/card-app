@@ -9,6 +9,9 @@ use App\Http\Controllers\Controller;
 Use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Imports\CardsImport;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
+use App\Mail\WorkAnniversaryMail;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -176,6 +179,13 @@ class CardController extends Controller
         $boxSuffix->setTextAlign('left', 'top');
         $boxSuffix->draw($suffix);
 
+        // ob_start();
+        // imagejpeg($im);
+        // $imageData = ob_get_contents();
+        // ob_end_clean();
+
+        // return $imageData;
+
         header("content-type: image/jpeg");
         imagejpeg($im);
     }
@@ -289,6 +299,32 @@ class CardController extends Controller
 
         // Return the file as a download response
         return response()->download($temp_file, $fileName)->deleteFileAfterSend(true);
+    }
+
+    public function sendEmail(Request $request)
+    {
+        $user = Card::find($request->user_id);
+        if (!$user) {
+            return back()->with('error', 'User not found');
+        }
+        // $ecardContent = $this->getEcard($request);
+
+        // Buat gambar e-card seperti pada metode getEcard
+        ob_start();
+        $this->getEcard($request);
+        $ecardContent = ob_get_clean();
+
+        // Encode e-card content to base64
+        $base64 = base64_encode($ecardContent);
+
+        // Kirim email
+        try {
+            Mail::to($user->email)->send(new WorkAnniversaryMail($user, $base64));
+            // unlink($filePath);
+            return back()->with('success', 'E-card has been sent successfully to ' . $user->email);
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to send email: ' . $e->getMessage());
+        }
     }
 
 }

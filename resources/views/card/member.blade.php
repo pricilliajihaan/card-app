@@ -94,6 +94,11 @@
                                     @csrf
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                 </form>
+                                <form action="{{ route('card.sendEmail') }}" method="post" style="display:inline;">
+                                    @csrf
+                                    <input type="hidden" name="user_id" value="{{ $item->id }}">
+                                    <button type="submit" class="btn btn-primary btn-sm">Send Email</button>
+                                </form>
                             </td>
                         </tr>
                         @endforeach

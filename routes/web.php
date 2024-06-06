@@ -30,3 +30,4 @@ Route::get('/card/edit/{id}', [CardController::class, 'edit'])->name('card.edit'
 Route::put('/card/update/{id}', [CardController::class, 'update'])->name('card.update');
 Route::post('/card/delete/{id}', [CardController::class, 'destroy'])->name('card.destroy');
 Route::get('/card/download-template', [CardController::class, 'downloadTemplate'])->name('card.download_template');
+Route::post('/card-send-email', [CardController::class, 'sendEmail'])->name('card.sendEmail');
