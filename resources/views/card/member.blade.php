@@ -1,4 +1,5 @@
 @extends('layouts.master')
+@section('title', 'Member Page')
 @section('content')
 <div class="container">
 <div class="row justify-content-center">
@@ -59,7 +60,7 @@
                     </form>
                 </div>
                 <hr>
-                <table class="table">
+                <table class="table text-center align-middle">
                     <thead>
                         <tr>
                             <td>No</td>
@@ -75,15 +76,15 @@
                     <tbody>
                         @foreach ($members as $key => $item)
                         
-                        <tr>
-                            <td class="align-middle">{{ $key + 1}}</td>
-                            <td class="align-middle">{{ $item->name }}</td>
-                            <td class="align-middle">{{ $item->email }}</td>
-                            <td class="align-middle">{{ $item->phone_number }}</td>
-                            <td class="align-middle">{{ $item->gender }}</td>
-                            <td class="align-middle">{{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') }}</td>
-                            <td class="align-middle">{{ $item->years_of_service }} tahun</td>
-                            <td class="align-middle">
+                        <tr class="align-middle">
+                            <td>{{ $key + 1}}</td>
+                            <td class="text-start">{{ $item->name }}</td>
+                            <td>{{ $item->email }}</td>
+                            <td>{{ $item->phone_number }}</td>
+                            <td>{{ $item->gender }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->start_date)->format('d/m/Y') }}</td>
+                            <td>{{ $item->years_of_service }} tahun</td>
+                            <td class="text-center">
                                 <form action="{{ route('card.ecard') }}" method="post">
                                     @csrf
                                     <input type="hidden" name="user_id" value="{{ $item->id }}">

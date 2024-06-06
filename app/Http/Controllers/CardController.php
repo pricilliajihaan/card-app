@@ -236,7 +236,7 @@ class CardController extends Controller
             $member->years_of_service = $yearsOfService;
             $member->save();
 
-            return redirect()->route('card.member')->with('succes', 'Data updated succesfully');
+            return redirect()->route('card.member')->with('success', 'Data updated succesfully');
         } else {
             return redirect()->route('card.member')->with('error', 'Karyawan not found');
         }
