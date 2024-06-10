@@ -60,7 +60,7 @@
                     </form>
                 </div>
                 <hr>
-                <table class="table text-center align-middle">
+                <table id="employeeTable" class="table text-center align-middle">
                     <thead>
                         <tr>
                             <td>No</td>
@@ -110,4 +110,17 @@
     </div>
 </div>
 </div>
+@endsection
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        $('#employeeTable').DataTable({
+            "pageLength": 10,
+            "searching": true,
+            "ordering": true,
+            "lengthChange": false
+        });
+    });
+</script>
 @endsection
