@@ -31,3 +31,4 @@ Route::put('/card/update/{id}', [CardController::class, 'update'])->name('card.u
 Route::post('/card/delete/{id}', [CardController::class, 'destroy'])->name('card.destroy');
 Route::get('/card/download-template', [CardController::class, 'downloadTemplate'])->name('card.download_template');
 Route::post('/card-send-email', [CardController::class, 'sendEmail'])->name('card.sendEmail');
+Route::get('/send-reminder/{user}', [CardController::class, 'sendReminder'])->name('send.reminder');

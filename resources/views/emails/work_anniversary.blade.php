@@ -23,6 +23,11 @@
         <p>Congratulations on your {{ $user->years_of_service }} year(s) of service! We appreciate your hard work and dedication.</p>
         <p>Here is your work anniversary card.</p>
         <img src="{{ $image }}" alt="Work Anniversary Card" class="ecard-image">
+        <p>
+            <a href="{{ route('send.reminder', ['user' => $user->id]) }}">
+                Click here to send a reminder email to Finance
+            </a>
+        </p>
         <p>Best Regards,</p>
         <p>MUC Consulting Management</p>
     </div>

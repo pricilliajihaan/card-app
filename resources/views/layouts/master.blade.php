@@ -9,8 +9,8 @@
         <meta content="" name="keywords">
         
         <!-- Favicons -->
-        <link href="{{ asset('img/favicon.png') }}" rel="icon">
-        <link href="{{ asset('img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+        <link href="{{ asset('img/muc-favicon.png') }}" rel="icon">
+        <link href="{{ asset('img/muc-touch-icon.png') }}" rel="apple-touch-icon">
 
         <!-- Google Fonts -->
         <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -25,13 +25,18 @@
         <link href="{{ asset('vendor/remixicon/remixicon.css') }}" rel="stylesheet">
         <link href="{{ asset('vendor/simple-datatables/style.css') }}" rel="stylesheet">
 
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
         <!-- Template Main CSS File -->
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-
         <!-- DataTables CSS -->
         <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+        <!-- DataTables Responsive JS -->
+        <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -39,9 +44,11 @@
         <!-- DataTables JS -->
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
-         <!-- Quill JS (CDN) -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+        <!-- Quill JS (CDN) -->
+        <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
         @stack('css')
+
     </head>
 
     <body>
@@ -50,7 +57,7 @@
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="{{ route('card.index') }}" class="logo d-flex align-items-center">
-                <img src="{{ asset('img/logo.png') }}" alt="">
+                <img src="{{ asset('img/muc-logo.png') }}" alt="">
                 <span class="d-none d-lg-block">MUC Consulting</span>
             </a>
             <i class="bi bi-list toggle-sidebar-btn"></i>
@@ -274,14 +281,17 @@
         <!-- Template Main JS File -->
         <script src="{{ asset('js/main.js') }}"></script>
 
+        <!-- jQuery (diperlukan untuk DataTables) -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
         <!-- DataTables JS -->
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
         <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
 
-        <!-- jQuery (diperlukan untuk DataTables) -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Popper.js (diperlukan untuk Bootstrap) -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+
         @stack('js')
 
         <script>

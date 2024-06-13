@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Imports\CardsImport;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
+use App\Mail\FinanceReminderMail;
 use App\Mail\WorkAnniversaryMail;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -325,6 +326,13 @@ class CardController extends Controller
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to send email: ' . $e->getMessage());
         }
+    }
+
+    public function sendReminder(Card $user)
+    {
+        Mail::to('finance@example.com')->send(new FinanceReminderMail($user));
+
+        return redirect()->back()->with('success', 'Reminder email sent successfully!');
     }
 
 }
