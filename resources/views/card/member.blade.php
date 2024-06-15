@@ -124,22 +124,25 @@
 @endsection
 
 @section('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 <script>
-    $(document).ready(function() {
-        var table = $('#employeeTable').DataTable({
-            "pageLength": 10,
-            "searching": true,
-            "ordering": true,
-            "lengthChange": false,
-            responsive: true
-        });
+  $(document).ready(function() {
+      var table = $('#employeeTable').DataTable({
+          "pageLength": 10,
+          "searching": true,
+          "ordering": true,
+          "lengthChange": false,
+          responsive: true
+      });
 
-        // Adjust columns when sidebar is toggled
-        $('.toggle-sidebar-btn').on('click', function() {
-            setTimeout(function() {
-                table.columns.adjust().responsive.recalc();
-            }, 300); // Adjust the timeout as needed
-        });
-    });
+      // Adjust columns when sidebar is toggled
+      $('.toggle-sidebar-btn').on('click', function() {
+          setTimeout(function() {
+              table.columns.adjust().responsive.recalc();
+          }, 300); // Adjust the timeout as needed
+      });
+  });
 </script>
 @endsection

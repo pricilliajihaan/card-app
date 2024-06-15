@@ -23,8 +23,11 @@ class CardController extends Controller
 {
     public function index()
     {
-        return view('card.index');
+        $totalEmployees = Card::count(); // Get the total number of employees
+        $employees = Card::select('id', 'name', 'start_date', 'email_sent')->get(); // Fetch employee data
+        return view('card.index', compact('totalEmployees', 'employees'));
     }
+
     public function register()
     {
         return view('card.register');
@@ -304,7 +307,7 @@ class CardController extends Controller
 
     public function sendEmail(Request $request)
     {
-        $user = Card::find($request->user_id);
+        $user = Card::findOrFail($request->user_id);
         if (!$user) {
             return back()->with('error', 'User not found');
         }
@@ -321,6 +324,10 @@ class CardController extends Controller
         // Kirim email
         try {
             Mail::to($user->email)->send(new WorkAnniversaryMail($user, $base64));
+            // Set email_sent menjadi true setelah surel berhasil dikirim
+            $user->email_sent = true;
+            $user->save();
+            
             // unlink($filePath);
             return back()->with('success', 'E-card has been sent successfully to ' . $user->email);
         } catch (\Exception $e) {
