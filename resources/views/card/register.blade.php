@@ -2,6 +2,15 @@
 @section('title', 'Register')
 @section('content')
     <div class="container">
+    <div class="pagetitle">
+        <h1>Employee</h1>
+        <nav>
+            <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href={{route('card.index')}}>Home</a></li>
+            <li class="breadcrumb-item active">Add Employee</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
