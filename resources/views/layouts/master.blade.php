@@ -153,7 +153,7 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('card.register')}}">
+                <a href="{{ route('card.add')}}">
                 <i class="bi bi-journal-text"></i><span>Add Employee</span>
                 </a>
             </li>

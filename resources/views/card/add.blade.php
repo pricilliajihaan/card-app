@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Register')
+@section('title', 'Add Member')
 @section('content')
     <div class="container">
     <div class="pagetitle">
@@ -16,7 +16,7 @@
                 <div class="card">
                     <div class="card-header">Form</div>
                     <div class="card-body">
-                        <form action="{{ route('card.register_process') }}" method="post">
+                        <form action="{{ route('card.add_process') }}" method="post">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nama Lengkap</label>

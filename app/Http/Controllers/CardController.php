@@ -28,11 +28,11 @@ class CardController extends Controller
         return view('card.index', compact('totalEmployees', 'employees'));
     }
 
-    public function register()
+    public function add()
     {
-        return view('card.register');
+        return view('card.add');
     }
-    public function registerProcess(Request $request)
+    public function addProcess(Request $request)
     {
         $request->validate([
             'name' =>'required',
