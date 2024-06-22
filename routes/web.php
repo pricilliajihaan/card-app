@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,18 +18,26 @@ use Illuminate\Support\Facades\Route;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
-Route::get('/', [CardController::class, 'index'])->name('card.index');
-// Route::get("/", [CardController::class,"index"])->name('card.index');
-Route::get('/card-add', [CardController::class, 'add'])->name('card.add');
-Route::post('/card-add', [CardController::class, 'addProcess'])->name('card.add_process');
-Route::get('/card-member', [CardController::class, 'member'])->name('card.member');
-Route::post('/card-member', [CardController::class, 'importData'])->name('card.import_data');
-Route::post('/card-truncate', [CardController::class, 'memberTruncate'])->name('card.truncate');
-Route::post('/card-ecard', [CardController::class, 'getEcard'])->name('card.ecard');
-Route::get('/search', [CardController::class, 'search'])->name('card.search');
-Route::get('/card/edit/{id}', [CardController::class, 'edit'])->name('card.edit');
-Route::put('/card/update/{id}', [CardController::class, 'update'])->name('card.update');
-Route::post('/card/delete/{id}', [CardController::class, 'destroy'])->name('card.destroy');
-Route::get('/card/download-template', [CardController::class, 'downloadTemplate'])->name('card.download_template');
-Route::post('/card-send-email', [CardController::class, 'sendEmail'])->name('card.sendEmail');
-Route::get('/send-reminder/{user}', [CardController::class, 'sendReminder'])->name('send.reminder');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.process');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register.process');
+
+// Protected routes
+Route::middleware('auth.employee')->group(function () {
+    Route::get('/', [CardController::class, 'index'])->name('card.index');
+    Route::get('/card-add', [CardController::class, 'add'])->name('card.add');
+    Route::post('/card-add', [CardController::class, 'addProcess'])->name('card.add_process');
+    Route::get('/card-member', [CardController::class, 'member'])->name('card.member');
+    Route::post('/card-member', [CardController::class, 'importData'])->name('card.import_data');
+    Route::post('/card-truncate', [CardController::class, 'memberTruncate'])->name('card.truncate');
+    Route::post('/card-ecard', [CardController::class, 'getEcard'])->name('card.ecard');
+    Route::get('/search', [CardController::class, 'search'])->name('card.search');
+    Route::get('/card/edit/{id}', [CardController::class, 'edit'])->name('card.edit');
+    Route::put('/card/update/{id}', [CardController::class, 'update'])->name('card.update');
+    Route::post('/card/delete/{id}', [CardController::class, 'destroy'])->name('card.destroy');
+    Route::get('/card/download-template', [CardController::class, 'downloadTemplate'])->name('card.download_template');
+    Route::post('/card-send-email', [CardController::class, 'sendEmail'])->name('card.sendEmail');
+    Route::get('/send-reminder/{user}', [CardController::class, 'sendReminder'])->name('send.reminder');
+});

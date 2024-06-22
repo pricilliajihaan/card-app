@@ -26,7 +26,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
+                      <i class="bx bxs-group"></i>
                     </div>
                     <div class="ps-3">
                       <h6>{{ $totalEmployees }}</h6>
@@ -59,7 +59,7 @@
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-currency-dollar"></i>
+                      <i class="bx bx-mail-send"></i>
                     </div>
                     <div class="ps-3">
                       {{-- Calculate number of sent emails --}}
@@ -72,7 +72,7 @@
                 </div>
 
               </div>
-            </div><!-- End Revenue Card -->
+            </div><!-- End Sent Card -->
 
             <!-- Employee Data Table -->
             <div class="col-12">
