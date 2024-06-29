@@ -70,7 +70,7 @@
                 <li class="nav-item dropdown pe-3">
 
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                        <img src="{{ asset('img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
+                        <img src="{{ asset('img/default-profile-img.jpeg') }}" alt="Profile" class="rounded-circle">
                         <span class="d-none d-md-block dropdown-toggle ps-2">{{ Auth::user()->name }}</span>
                     </a><!-- End Profile Image Icon -->
 
@@ -84,7 +84,7 @@
                         </li>
 
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="#">
+                            <a class="dropdown-item d-flex align-items-center" href="{{ route('user.profile') }}">
                                 <i class="bi bi-person"></i>
                                 <span>My Profile</span>
                             </a>
@@ -143,7 +143,7 @@
         </li><!-- End Components Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
+            <a class="nav-link collapsed" href="{{ route('user.profile') }}">
             <i class="bi bi-person"></i>
             <span>Profile</span>
             </a>
@@ -151,31 +151,10 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="#">
-            <i class="bi bi-question-circle"></i>
-            <span>F.A.Q</span>
-            </a>
-        </li><!-- End F.A.Q Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
             <i class="bi bi-envelope"></i>
             <span>Contact</span>
             </a>
         </li><!-- End Contact Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-            <i class="bi bi-card-list"></i>
-            <span>Register</span>
-            </a>
-        </li><!-- End Register Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-            <i class="bi bi-box-arrow-in-right"></i>
-            <span>Login</span>
-            </a>
-        </li><!-- End Login Page Nav -->
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="#">

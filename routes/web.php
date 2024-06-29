@@ -40,4 +40,6 @@ Route::middleware('auth.employee')->group(function () {
     Route::get('/card/download-template', [CardController::class, 'downloadTemplate'])->name('card.download_template');
     Route::post('/card-send-email', [CardController::class, 'sendEmail'])->name('card.sendEmail');
     Route::get('/send-reminder/{user}', [CardController::class, 'sendReminder'])->name('send.reminder');
+    Route::get('/profile', [CardController::class, 'profile'])->name('user.profile');
+    Route::post('/profile', [CardController::class, 'updateProfile'])->name('profile.update');
 });

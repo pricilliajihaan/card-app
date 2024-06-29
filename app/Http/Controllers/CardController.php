@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use GDText\Box;
 use GDText\Color;
 use App\Models\Card;
+Use App\Models\User;
 use App\Http\Controllers\Controller;
 Use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 use App\Imports\CardsImport;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
@@ -32,6 +35,44 @@ class CardController extends Controller
     {
         return view('card.add');
     }
+
+    public function profile()
+    {
+        return view('card.profile');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $user = Auth::user();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'about' => 'nullable|string',
+            'company' => 'nullable|string|max:255',
+            'job' => 'nullable|string|max:255',
+            'country' => 'nullable|string|max:255',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'email' => 'required|email|max:255',
+        ]);
+
+        if ($user instanceof User) {
+            $user->update([
+                'name' => $request->name,
+                'about' => $request->about,
+                'company' => $request->company,
+                'job' => $request->job,
+                'country' => $request->country,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'email' => $request->email,
+            ]);
+
+            return redirect()->route('user.profile')->with('success', 'Profile updated successfully');
+        } else {
+            return redirect()->route('user.profile')->with('error', 'User not found');
+        }
+    }
+
     public function addProcess(Request $request)
     {
         $request->validate([
