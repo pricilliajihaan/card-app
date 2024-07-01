@@ -42,4 +42,5 @@ Route::middleware('auth.employee')->group(function () {
     Route::get('/send-reminder/{user}', [CardController::class, 'sendReminder'])->name('send.reminder');
     Route::get('/profile', [CardController::class, 'profile'])->name('user.profile');
     Route::post('/profile', [CardController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/profile/remove-image', [CardController::class, 'removeProfileImage'])->name('profile.removeImage');
 });

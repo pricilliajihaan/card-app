@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 Use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Imports\CardsImport;
 use Illuminate\Support\Facades\Mail;
@@ -44,21 +45,32 @@ class CardController extends Controller
     public function updateProfile(Request $request)
     {
         $user = Auth::user();
+
         $request->validate([
             'name' => 'required|string|max:255',
-            'about' => 'nullable|string',
             'company' => 'nullable|string|max:255',
             'job' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:20',
             'email' => 'required|email|max:255',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validasi tipe file gambar
         ]);
 
         if ($user instanceof User) {
+            if ($request->hasFile('profile_image')) {
+                // Hapus gambar lama jika ada
+                if ($user->profile_image) {
+                    Storage::disk('public')->delete($user->profile_image);
+                }
+
+                // Simpan gambar baru
+                $imagePath = $request->file('profile_image')->store('profile_images', 'public');
+                $user->profile_image = $imagePath;
+            }
+
             $user->update([
                 'name' => $request->name,
-                'about' => $request->about,
                 'company' => $request->company,
                 'job' => $request->job,
                 'country' => $request->country,
@@ -68,6 +80,23 @@ class CardController extends Controller
             ]);
 
             return redirect()->route('user.profile')->with('success', 'Profile updated successfully');
+        } else {
+            return redirect()->route('user.profile')->with('error', 'User not found');
+        }
+    }
+
+    public function removeProfileImage()
+    {
+        $user = Auth::user();
+
+        if ($user instanceof User) {
+            if ($user->profile_image) {
+                Storage::disk('public')->delete($user->profile_image);
+                $user->profile_image = null;
+                $user->save();
+            }
+
+            return redirect()->route('user.profile')->with('success', 'Profile image removed successfully');
         } else {
             return redirect()->route('user.profile')->with('error', 'User not found');
         }

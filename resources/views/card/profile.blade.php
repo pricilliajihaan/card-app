@@ -18,8 +18,8 @@
 
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-
-              <img src="{{ asset('img/default-profile-img.jpeg') }}" alt="Profile" class="rounded-circle">
+              
+              <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('img/default-profile-img.jpeg') }}" alt="Profile" class="rounded-circle">
               <h2>{{ Auth::user()->name }}</h2>
               <h3>{{ Auth::user()->role }}</h3>
             </div>
@@ -50,8 +50,6 @@
               <div class="tab-content pt-2">
 
                 <div class="tab-pane fade show active profile-overview" id="profile-overview">
-                  <h5 class="card-title">About</h5>
-                  <p class="small fst-italic">{{ Auth::user()->about }}</p>
 
                   <h5 class="card-title">Profile Details</h5>
 
@@ -95,30 +93,26 @@
                 <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                   <!-- Profile Edit Form -->
-                  <form action="{{ route('profile.update') }}" method="POST">
+                  <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row mb-3">
-                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                      <div class="col-md-8 col-lg-9">
-                        <img src="{{ asset('img/default-profile-img.jpeg') }}" alt="Profile">
-                        <div class="pt-2">
-                          <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                          <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                        <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                        <div class="col-md-8 col-lg-9">
+                        <img src="{{ Auth::user()->profile_image ? asset('storage/' . Auth::user()->profile_image) : asset('img/default-profile-img.jpeg') }}" alt="Profile" class="rounded-circle">
+                            <div class="pt-2">
+                                <input type="file" name="profile_image" id="profile_image" class="d-none">
+                                <label for="profile_image" class="btn btn-primary btn-sm" title="Upload new profile image">
+                                    <i class="bi bi-upload"></i>
+                                </label>
+                                <a href="{{ route('profile.removeImage') }}" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+                            </div>
                         </div>
-                      </div>
                     </div>
 
                     <div class="row mb-3">
                       <label for="name" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="name" type="text" class="form-control" id="name" value="{{ Auth::user()->name }}">
-                      </div>
-                    </div>
-
-                    <div class="row mb-3">
-                      <label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
-                      <div class="col-md-8 col-lg-9">
-                        <textarea name="about" class="form-control" id="about" style="height: 100px">{{ Auth::user()->about }}</textarea>
                       </div>
                     </div>
 
