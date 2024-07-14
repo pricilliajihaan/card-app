@@ -93,10 +93,10 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li class="dropdown-item d-flex align-items-center">
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            <form id="logout-form-dropdown" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
-                            <a href="#" class="d-flex align-items-center" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <a href="#" class="d-flex align-items-center" onclick="event.preventDefault(); console.log('Dropdown Sign Out Clicked'); document.getElementById('logout-form-dropdown').submit();">
                                 <i class="bi bi-box-arrow-right"></i>
                                 <span>Sign Out</span>
                             </a>
