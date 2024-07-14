@@ -27,13 +27,14 @@ Route::post('/register', [AuthController::class, 'register'])->name('register.pr
 // Protected routes
 Route::middleware('auth.employee')->group(function () {
     Route::get('/', [CardController::class, 'index'])->name('card.index');
+    Route::get('/card-manage', [CardController::class, 'manage'])->name('card.manage');
+    Route::get('/employees/list', [CardController::class, 'list'])->name('employees.list');
+    Route::get('/employees/import', [CardController::class, 'import'])->name('employees.import');
+    Route::post('/card-member', [CardController::class, 'importData'])->name('card.import_data');
     Route::get('/card-add', [CardController::class, 'add'])->name('card.add');
     Route::post('/card-add', [CardController::class, 'addProcess'])->name('card.add_process');
-    Route::get('/card-member', [CardController::class, 'member'])->name('card.member');
-    Route::post('/card-member', [CardController::class, 'importData'])->name('card.import_data');
     Route::post('/card-truncate', [CardController::class, 'memberTruncate'])->name('card.truncate');
     Route::post('/card-ecard', [CardController::class, 'getEcard'])->name('card.ecard');
-    Route::get('/search', [CardController::class, 'search'])->name('card.search');
     Route::get('/card/edit/{id}', [CardController::class, 'edit'])->name('card.edit');
     Route::put('/card/update/{id}', [CardController::class, 'update'])->name('card.update');
     Route::post('/card/delete/{id}', [CardController::class, 'destroy'])->name('card.destroy');

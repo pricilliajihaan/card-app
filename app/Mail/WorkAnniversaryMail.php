@@ -35,11 +35,16 @@ class WorkAnniversaryMail extends Mailable
      */
     public function build()
     {
-        $image = 'data:image/jpeg;base64,' . $this->base64;
+        $this->attachData(base64_decode($this->base64), 'work_anniversary.jpg', [
+            'mime' => 'image/jpeg',
+            'as' => 'work_anniversary.jpg', // Nama file yang digunakan di dalam email
+        ]);
+    
         return $this->subject('Happy Work Anniversary!')
                     ->view('emails.work_anniversary')
                     ->with([
-                        'image' => $image,
+                        'user' => $this->user,
+                        'image' => 'cid:work_anniversary.jpg',
                     ]);
     }
 }

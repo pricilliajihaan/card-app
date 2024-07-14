@@ -4,16 +4,16 @@
     <title>Work Anniversary</title>
     <style>
         .email-container {
-            max-width: 800px; /* Ubah sesuai lebar maksimal yang diinginkan */
-            margin: 0 auto; /* Memusatkan konten email */
-            padding: 20px; /* Memberikan sedikit ruang di sekitar konten */
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
         }
         .ecard-image {
-            max-width: 400px; /* Ubah sesuai lebar maksimal gambar yang diinginkan */
-            width: 100%; /* Menyesuaikan dengan lebar kontainer */
-            height: auto; /* Mempertahankan rasio aspek */
-            display: block; /* Menampilkan gambar sebagai blok */
-            margin: 0 auto; /* Memusatkan gambar */
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>

@@ -110,59 +110,66 @@
 
         </header><!-- End Header -->
 
-          <!-- ======= Sidebar ======= -->
+        <!-- ======= Sidebar ======= -->
         <aside id="sidebar" class="sidebar">
 
         <ul class="sidebar-nav" id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link " href="{{ route('card.index') }}">
-            <i class="bi bi-grid"></i>
-            <span>Dashboard</span>
+            <a class="nav-link {{ Request::routeIs('card.index') ? 'active' : '' }}" href="{{ route('card.index') }}">
+                <i class="bi bi-grid"></i>
+                <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link {{ Request::routeIs('card.manage') ? 'active' : '' }}" href="{{ route('card.manage') }}">
+            <i class="bx bxs-customize"></i>
+            <span>Manage e-Card</span>
+            </a>
+        </li><!-- End Manage Nav -->
 
         <li class="nav-heading">Pages</li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" data-bs-target="#employee-nav" data-bs-toggle="collapse" href="#">
-            <i class="bi bi-person-lines-fill"></i><span>Employee</span><i class="bi bi-chevron-down ms-auto"></i>
+            <a class="nav-link {{ Request::routeIs('employees.list') ? 'active' : '' }}" href="{{ route('employees.list') }}">
+            <i class="bi bi-card-list"></i>
+            <span>List Data</span>
             </a>
-            <ul id="employee-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-            <li>
-                <a href="{{ route('card.member')}}">
-                <i class="bi bi-layout-text-window-reverse"></i><span>Import Data</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('card.add')}}">
-                <i class="bi bi-journal-text"></i><span>Add Employee</span>
-                </a>
-            </li>
-            </ul>
-        </li><!-- End Components Nav -->
+        </li><!-- End List Data Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('user.profile') }}">
-            <i class="bi bi-person"></i>
-            <span>Profile</span>
+            <a class="nav-link {{ Request::routeIs('employees.import') ? 'active' : '' }}" href="{{ route('employees.import') }}">
+            <i class="bx bx-import"></i>
+            <span>Import Data</span>
+            </a>
+        </li><!-- End Import Data Nav -->
+
+        <li class="nav-item">
+            <a class="nav-link {{ Request::routeIs('card.add') ? 'active' : '' }}" href="{{ route('card.add') }}">
+            <i class="ri-play-list-add-fill"></i>
+            <span>Add Data</span>
+            </a>
+        </li><!-- End Add Data Nav -->
+
+        <li class="nav-heading">User</li>
+
+        <li class="nav-item">
+            <a class="nav-link {{ Request::routeIs('user.profile') ? 'active' : 'collapsed' }}" href="{{ route('user.profile') }}">
+                <i class="bi bi-person"></i>
+                <span>Profile</span>
             </a>
         </li><!-- End Profile Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-            <i class="bi bi-envelope"></i>
-            <span>Contact</span>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
+            <a class="nav-link collapsed" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
             </a>
-        </li><!-- End Contact Page Nav -->
-
-        <li class="nav-item">
-            <a class="nav-link collapsed" href="#">
-            <i class="bi bi-dash-circle"></i>
-            <span>Error 404</span>
-            </a>
-        </li><!-- End Error 404 Page Nav -->
-
+        </li><!-- End Sign Out Nav -->
         </ul>
 
         </aside><!-- End Sidebar-->
@@ -213,9 +220,6 @@
 
         <!-- Template Main JS File -->
         <script src="{{ asset('js/main.js') }}"></script>
-
-        <!-- jQuery (diperlukan untuk DataTables) -->
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
         <!-- DataTables JS -->
         <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>

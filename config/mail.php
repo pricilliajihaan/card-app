@@ -13,8 +13,11 @@ return [
     |
     */
 
-    'default' => env('MAIL_MAILER', 'smtp'),
-
+    'default' => env('MAIL_MAILER', function() {
+        \Illuminate\Support\Facades\Log::info('Mail configuration loaded.');
+        return 'smtp';
+    }),
+    
     /*
     |--------------------------------------------------------------------------
     | Mailer Configurations
@@ -36,8 +39,7 @@ return [
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'url' => env('MAIL_URL'),
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+            'host' => env('MAIL_HOST', 'smtp.gmail.com'),
             'port' => env('MAIL_PORT', 587),
             'encryption' => env('MAIL_ENCRYPTION', 'tls'),
             'username' => env('MAIL_USERNAME'),

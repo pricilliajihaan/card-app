@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 Use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Imports\CardsImport;
@@ -25,17 +26,61 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 
 class CardController extends Controller
 {
-    public function index()
+public function index()
     {
-        $totalEmployees = Card::count(); // Get the total number of employees
-        $employees = Card::select('id', 'name', 'start_date', 'email_sent')->get(); // Fetch employee data
-        return view('card.index', compact('totalEmployees', 'employees'));
+        // Mengambil semua data karyawan
+        $employees = Card::all();
+        
+        // Menghitung jumlah total karyawan
+        $totalEmployees = $employees->count();
+        
+        // Mendapatkan tanggal hari ini
+        $today = Carbon::today();
+
+        // Mendapatkan ulang tahun kerja yang akan datang
+        $upcomingAnniversaries = $employees->map(function ($employee) use ($today) {
+            $start_date = Carbon::parse($employee->start_date);
+            $anniversary = $start_date->copy()->year($today->year);
+
+            // Jika ulang tahun kerja telah lewat tahun ini, set untuk tahun depan
+            if ($anniversary->isPast()&& !$anniversary->isToday()) {
+                $anniversary->addYear();
+            }
+
+            $days_remaining = $today->diffInDays($anniversary, false);
+
+            $display_text = '';
+            if ($anniversary->isToday()) {
+                $display_text = "{$employee->name}'s work anniversary today!";
+            } elseif ($days_remaining > 14) {
+                $weeks_remaining = ceil($days_remaining / 7);
+                $display_text = "{$employee->name} will celebrate their work anniversary in {$weeks_remaining} weeks";
+            } else {
+                $display_text = "{$employee->name} will celebrate their work anniversary in {$days_remaining} days";
+            }
+
+            return [
+                'name' => $employee->name,
+                'days_remaining' => $days_remaining,
+                'display_text' => $display_text            
+            ];
+        })->sortBy('days_remaining')->take(5); // Ambil 5 ulang tahun kerja yang akan datang
+
+        // Mengoper variabel ke view
+        return view('card.index', compact('employees', 'totalEmployees', 'upcomingAnniversaries'));
+    }
+    public function manage()
+    {
+        return view('card.manage', [
+            'members' => Card::latest()->get()
+        ]);
     }
 
     public function add()
     {
         return view('card.add');
     }
+
 
     public function profile()
     {
@@ -102,6 +147,41 @@ class CardController extends Controller
         }
     }
 
+    // public function changePassword(Request $request)
+    // {
+    //     $user = Auth::user();
+    
+    //     if (!$user instanceof User) {
+    //         Log::error('Auth user is not an instance of User model.');
+    //         return redirect()->route('user.profile')->with('error', 'User not found.');
+    //     }
+    
+    //     // Validasi input
+    //     $request->validate([
+    //         'currentPassword' => 'required',
+    //         'newPassword' => 'required|string|min:8|confirmed',
+    //     ]);
+    
+    //     // Cek apakah kata sandi saat ini cocok
+    //     if (!Hash::check($request->currentPassword, $user->password)) {
+    //         Log::warning('Current password is incorrect.');
+    //         return redirect()->route('user.profile')->with('error', 'Current password is incorrect.');
+    //     }
+    
+    //     // Ubah kata sandi
+    //     $user->password = Hash::make($request->newPassword);
+    //     Log::info('User password before save: ' . $user->password);
+    
+    //     // Simpan perubahan
+    //     if ($user->save()) {
+    //         Log::info('User password has been changed successfully.');
+    //         return redirect()->route('user.profile')->with('success', 'Password changed successfully.');
+    //     } else {
+    //         Log::error('Failed to save new password.');
+    //         return redirect()->route('user.profile')->with('error', 'Failed to change password. Please try again.');
+    //     }
+    // }
+
     public function addProcess(Request $request)
     {
         $request->validate([
@@ -127,11 +207,16 @@ class CardController extends Controller
         return back()->with('success','Berhasil Mendaftar');
 
     }
-    public function member()
+
+    public function list()
     {
-        return view('card.member', [
-            'members' => Card::latest()->get()
-        ]);
+        $members = Card::all();
+        return view('card.list', compact('members'));
+    }
+
+    public function import()
+    {
+        return view('card.import');
     }
 
     public function importData(Request $request)
@@ -176,6 +261,11 @@ class CardController extends Controller
     public function getEcard(Request $request)
     {
         $user = Card::find($request->user_id);
+
+        if (!$user) {
+            return back()->with('error', 'User not found');
+        }
+        
         $name = $user->name;
         $yearsOfService = $user->years_of_service;
 
@@ -264,20 +354,6 @@ class CardController extends Controller
         imagejpeg($im);
     }
     
-    public function search(Request $request)
-    {
-        $query = $request->input('search');
-
-        // Query untuk pencarian nama karyawan
-        $members = Card::where('name', 'LIKE', "%{$query}%")->get();
-
-        // Simpan query pencarian ke session flash
-        session()->flash('search', $query);
-
-        // Kembalikan view dengan hasil pencarian
-        return view('card.member', ['members' => $members]);
-    }
-
     public function edit($id)
     {
         $member = Card::find($id);
@@ -310,9 +386,9 @@ class CardController extends Controller
             $member->years_of_service = $yearsOfService;
             $member->save();
 
-            return redirect()->route('card.member')->with('success', 'Data updated succesfully');
+            return redirect()->route('employees.list')->with('success', 'Data updated succesfully');
         } else {
-            return redirect()->route('card.member')->with('error', 'Karyawan not found');
+            return redirect()->route('employees.list')->with('error', 'Karyawan not found');
         }
     }
 
@@ -401,15 +477,15 @@ class CardController extends Controller
             // unlink($filePath);
             return back()->with('success', 'E-card has been sent successfully to ' . $user->email);
         } catch (\Exception $e) {
+            Log::error('Failed to send email: ' . $e->getMessage());
             return back()->with('error', 'Failed to send email: ' . $e->getMessage());
         }
     }
 
     public function sendReminder(Card $user)
     {
-        Mail::to('finance@example.com')->send(new FinanceReminderMail($user));
-
-        return redirect()->back()->with('success', 'Reminder email sent successfully!');
+        Mail::to('keuanganbemfikti@gmail.com')->send(new FinanceReminderMail($user));
+        return response()->file(public_path('confirmation.html'));
     }
 
 }

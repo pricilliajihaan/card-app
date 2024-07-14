@@ -26,7 +26,7 @@
                             <div class="d-flex justify-content-center py-4">
                                 <a href="{{ route('card.index') }}" class="logo d-flex align-items-center w-auto">
                                     <img src="{{ asset('img/muc-logo.png') }}" alt="logo">
-                                    <span class="d-none d-lg-block">Card App MUC Consulting</span>
+                                    <span class="d-none d-lg-block">HCIS - MUC Consulting</span>
                                 </a>
                             </div>
                             <div class="card mb-3">
