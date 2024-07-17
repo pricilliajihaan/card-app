@@ -101,11 +101,11 @@
                             <button type="submit" class="btn btn-secondary btn-sm">Preview Kartu</button>
                         </form>
                         <!-- Tombol Send Email -->
-                        <form action="{{ route('card.sendEmail') }}" method="post" class="me-2">
+                        <!-- <form action="{{ route('card.sendEmail') }}" method="post" class="me-2">
                             @csrf
                             <input type="hidden" name="user_id" value="{{ $item->id }}">
                             <button type="submit" class="btn btn-primary btn-sm">Send Email</button>
-                        </form>
+                        </form> -->
                     </div>
                 </div>
             </div>
