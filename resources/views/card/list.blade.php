@@ -7,7 +7,7 @@
         <nav>
             <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href={{route('card.index')}}>Home</a></li>
-            <li class="breadcrumb-item active">Employee Data</li>
+            <li class="breadcrumb-item active">List Data Employee</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
